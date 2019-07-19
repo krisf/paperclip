@@ -3,7 +3,11 @@ module Paperclip
 
     def generate(name = random_name)
       @name = name
-      file = Tempfile.new([basename, extension])
+      if ENV['PAPERCLIP_CUSTOM_TMP_PATH']
+        file = Tempfile.new([basename, extension], ENV['PAPERCLIP_CUSTOM_TMP_PATH'])
+      else
+        file = Tempfile.new([basename, extension])
+      end
       file.binmode
       file
     end
